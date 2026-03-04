@@ -88,6 +88,3 @@ docker-compose down -v
 - **Worker:** Python, Redis, PyMongo, NumPy, FEniCSx (in the worker Docker image)
 - **Infrastructure:** Docker, Docker Compose, MongoDB, Redis
 
-## 📄 License
-
-This project is licensed under the ISC License.

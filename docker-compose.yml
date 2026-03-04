@@ -1,0 +1,73 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - fluxnode-net
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - fluxnode-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/fluxnode
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=supersecretjwtkey
+      - PORT=5000
+    volumes:
+      - shared-outputs:/app/outputs
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - fluxnode-net
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/fluxnode
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - shared-outputs:/app/outputs
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - fluxnode-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+    networks:
+      - fluxnode-net
+
+volumes:
+  mongo-data:
+  shared-outputs:
+
+networks:
+  fluxnode-net:
+    driver: bridge

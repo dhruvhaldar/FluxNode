@@ -56,7 +56,7 @@ Ensure you have the following installed on your machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/fluxnode.git
+   git clone https://github.com/dhruvhaldar/FluxNode.git
    cd fluxnode
    ```
 

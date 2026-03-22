@@ -23,6 +23,14 @@ FluxNode follows a decoupled microservices architecture to ensure scalability an
 
 All services are containerized and orchestrated using Docker Compose.
 
+## 📸 Screenshots
+
+### Authentication Page
+![Authentication Page](docs/auth.png)
+
+### Dashboard Page
+![Dashboard Page](docs/dashboard.png)
+
 ## 📂 Project Structure
 
 ```text
